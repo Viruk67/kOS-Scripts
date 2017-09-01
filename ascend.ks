@@ -1,4 +1,4 @@
-// Launch ascend script, managing pitch, staging and throttle.
+// Launch ascend script, managing pitch, staging and throttle. v2.0
 // Compatible with KSP 1.0 and kOS 0.18
 
 @LAZYGLOBAL off.
@@ -22,8 +22,10 @@ LOCAL tTWR					IS 2.0.							// Target TWR
 
 LOCAL turnPitch				IS 30.
 LOCAL turnAlt				IS 35000.
+LOCAL incAlt				IS 5000.
 
 LOCAL Ps					IS 0.
+LOCAL Is					IS 0.
 LOCAL oldAvailableThrust	IS 0.
 LOCAL aPID					IS PIDLOOP().
 LOCAL th					IS 1.
@@ -31,10 +33,11 @@ LOCAL aTWR					IS 0.
 LOCAL towerAlt				IS 1000.
 
 SAS ON.														// Switch SAS ON as kOS can now work with stability assist
+LOCK THROTTLE TO 1.											// Initially, lock the throttle to maximum
 
 LOCK Ps TO 90-((90-turnPitch)*(SHIP:ALTITUDE/turnAlt)).		// Set a linear change of pitch above the horizon
-LOCK STEERING TO HEADING(90-incl,Ps) + R(0,0,-90).			// Lock the steering to East (+ or - inclination) and the calculated pitch. Lock in a suitable rotation as well to prevent unwinding at launch
-LOCK THROTTLE TO 1.											// Initially, lock the throttle to maximum
+LOCK Is TO incl*(MIN(SHIP:ALTITUDE,incAlt)/incAlt).			// Slowly increase inclination, to complete by the time we get to incAlt
+LOCK STEERING TO HEADING(90-Is,Ps) + R(0,0,-90).			// Lock the steering to East (+ or - inclination) and the calculated pitch. Lock in a suitable rotation as well to prevent unwinding at launch
 
 // Launch!
 // Hit "stage" until there's an active engine
@@ -75,12 +78,13 @@ UNTIL SHIP:ALTITUDE > turnAlt
 	SET aPID:SETPOINT TO tTWR.
 	SET th TO aPID:UPDATE(TIME:SECONDS, aTWR).
 	
-	PRINT "Target altitude     is "		+ finalAlt					+ "m"					AT (0,0).	// Target final altitude passed in
-	PRINT "Target inclination  is "		+ incl						+ " "					AT (0,1).	// Target inclination passed in
-	PRINT "Current pitch       is " 	+ ROUND(Ps,2) 				+ " above horizon   " 	AT (0,2). 	// Print pitch to two decimal places
-	PRINT "Calculated throttle is " 	+ ROUND(th,2) 				+ "   "					AT (0,3).	// Print calculated throttle to two decimal places 
-	PRINT "Target TWR          is "		+ ROUND(tTWR,2) 			+ "   "					AT (0,4).	// Print target TWR
-	PRINT "Actual TWR          is "		+ ROUND(aTWR,2) 			+ "   "					AT (0,5).	// Print actual TWR
+	PRINT "Target altitude        is "	+ finalAlt		+ "m"					AT (0,0).	// Target final altitude passed in
+	PRINT "Target inclination     is "	+ incl			+ " "					AT (0,1).	// Target inclination passed in
+	PRINT "Calculated pitch       is " + ROUND(Ps,2) 	+ " above horizon   " 	AT (0,3). 	// Print calculated pitch to two decimal places
+	PRINT "Calculated inclination is " + ROUND(Is,2) 	+ " from East       " 	AT (0,4). 	// Print calculated inclination to two decimal places
+	PRINT "Calculated throttle    is " + ROUND(th,2) 	+ "   "					AT (0,6).	// Print calculated throttle to two decimal places 
+	PRINT "Target TWR             is "	+ ROUND(tTWR,2) + "   "					AT (0,7).	// Print target TWR
+	PRINT "Actual TWR             is "	+ ROUND(aTWR,2) + "   "					AT (0,8).	// Print actual TWR
 	
 	WAIT 0.05.
 }

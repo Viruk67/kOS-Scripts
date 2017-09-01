@@ -1,6 +1,6 @@
 // A library of functions to execute node related tasks
 // Compatible with KSP 1.0 and kOS 0.17
-// Version: 1.4
+// Version: 1.6
 
 //@lazyglobal off.
 
@@ -28,7 +28,8 @@ function exnode
 	ELSE
 	{
 		// Acceleration is Force * Mass
-		LOCK max_acc TO SHIP:AVAILABLETHRUST/SHIP:MASS.
+		//LOCK max_acc TO SHIP:AVAILABLETHRUST/SHIP:MASS.
+		SET max_acc TO SHIP:AVAILABLETHRUST/SHIP:MASS.
 	}
 	
 	// Now we just need to divide deltav:mag by our ship's max acceleration
@@ -74,11 +75,7 @@ function exnode
 	// Record initial deltav
 	SET dv0 TO nd:deltav.
 	
-	// Throttle is 100%, decrease the throttle linearly once we have only a little remaining
-	// Be careful, at stage separation this could be zero, so set a minimum value. Prevents divide by zero errors
-	// LOCK max_acc TO MAX(SHIP:AVAILABLETHRUST/SHIP:MASS, 0.000001).
-	
-	// Recalculate current max_acceleration, as it changes while we burn through fuel
+	// Recalculate current max_acceleration, as it changes while we burn through fuel, using event driven code
 	LOCK tset TO MIN(1,MAX(0,nd:deltav:mag/max_acc)).
 	LOCK THROTTLE TO tset.
 	
@@ -95,7 +92,13 @@ function exnode
 			PRINT "Aborting burn (no thrust)".
 			LOCK throttle TO 0.
 			SET done TO True.
-		}	
+		}
+		ELSE
+		{
+			// "Set" the maximum available acceleration, rather than lock it, to avoid the tiny chance the stage hasn't kicked in yet
+			// Prevents divide by zero errors from event driven code
+			SET max_acc TO SHIP:AVAILABLETHRUST/SHIP:MASS.
+		}		
 		
 		// Here's the tricky part, we need to cut the throttle as soon as our nd:deltav and initial deltav start facing opposite directions
 		// This check is done via checking the dot product of those 2 vectors
@@ -120,8 +123,6 @@ function exnode
 		}
 		
 		// Give KSP a chance to do something else
-		//PRINT ROUND(VDOT(dv0, nd:deltav),1) 	+ "    "	AT (0,17).
-		//PRINT ROUND(nd:deltav:mag,1)			+ "    "	AT (0,18).
 		WAIT 0.01.
 	}
 
@@ -148,13 +149,13 @@ function circle
 	// Calculate Orbital Velocity
 	SET ov TO Orbital_velocity().
 	
-	// Get the predicted orbital velocity at apoapsis. THis will be the MAGnitude of our orbital vector
+	// Get the predicted orbital velocity at apoapsis. This will be the MAGnitude of our orbital vector
 	SET av TO VELOCITYAT(SHIP, TIME:SECONDS+ETA:APOAPSIS):ORBIT:MAG.
 	
 	// Calculate how much more velocity we need based on the required speed and our predicted speed
 	LOCAL dv TO ov - av.
 	
-	// Create an empty node and add it to the flight plan
+	// Create a node and add it to the flight plan
 	// Add the required deltaV to prograde (assume all we want to do is go faster in our current direction)
 	LOCAL cnode TO NODE(TIME:SECONDS+ETA:APOAPSIS,0,0,dv).
 	ADD cnode.
