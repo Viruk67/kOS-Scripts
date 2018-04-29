@@ -31,3 +31,4 @@ declare function CurAvailableTWR {
 declare function MaxAvailableTWR {
 	return SHIP:AVAILABLETHRUST / Fg_here().
 }
+
