@@ -30,7 +30,7 @@ LOCAL oldAvailableThrust	IS 0.
 LOCAL aPID					IS PIDLOOP().
 LOCAL th					IS 1.
 LOCAL aTWR					IS 0.
-LOCAL towerAlt				IS 1000.
+LOCAL towerAlt				IS 5000.
 
 SAS ON.														// Switch SAS ON as kOS can now work with stability assist
 LOCK THROTTLE TO 1.											// Initially, lock the throttle to maximum
