@@ -1,3 +1,26 @@
+// ---------------------------------------------------------------------------------
+// SYNOPSIS
+// 		A library of functions to execute node related tasks
+//
+//COMPATABILITY
+//		KSP 1.4+
+//		kOS 1.1.5 (https://ksp-kos.github.io/KOS/)
+//
+// PARAMETERS
+//		None.
+//
+// COMMENTS
+//		None.
+//
+//	SUGGESTED MODS
+//		None.
+//
+// CREDITS
+//		Viruk67 (Author)
+//		The function exnode is taken from http://ksp-kos.github.io/KOS_DOC/tutorials/exenode.html
+//		
+// ---------------------------------------------------------------------------------
+
 // A library of functions to execute node related tasks
 // Compatible with KSP 1.0 and kOS 0.17
 // Version: 1.6
@@ -6,9 +29,7 @@
 
 // ------------------------------------------------------------------------------------------------
 
-// Execute the next node in sequence
-// The function exnode is taken from http://ksp-kos.github.io/KOS_DOC/tutorials/exenode.html
-// With minor revisions
+// Execute the next node in sequence, even if there are more than one planned
 
 function exnode 
 {

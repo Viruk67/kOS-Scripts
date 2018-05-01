@@ -1,4 +1,25 @@
-// A library of routines to help do basic physics calculations
+// ---------------------------------------------------------------------------------
+// SYNOPSIS
+// 		A library of routines to help do basic physics calculations
+//
+//COMPATABILITY
+//		KSP 1.4+
+//		kOS 1.1.5 (https://ksp-kos.github.io/KOS/)
+//
+// PARAMETERS
+//		None.
+//
+// COMMENTS
+//		None.
+//
+//	SUGGESTED MODS
+//		None.
+//
+// CREDITS
+//		Viruk67 (Author)
+//		The function Orbital_velocity taken from http://wiki.kerbalspaceprogram.com/wiki/Tutorial:_Basic_Orbiting_(Math)
+//		
+// ---------------------------------------------------------------------------------
 
 @LAZYGLOBAL off.
 
@@ -19,7 +40,6 @@ declare function Fg_here {
 }.
 
 // Calculate our orbital velocity around the current ship's body
-// Taken from http://wiki.kerbalspaceprogram.com/wiki/Tutorial:_Basic_Orbiting_(Math)
 declare function Orbital_velocity {
 	LOCAL R to SHIP:BODY:RADIUS.
 	LOCAL g to g_height(0).

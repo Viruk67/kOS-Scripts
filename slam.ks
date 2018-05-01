@@ -1,10 +1,41 @@
-// Credit for the bulk of this script goes to Bradley Hammond
-// https://github.com/mrbradleyjh/KOS-Hoverslam/blob/master/hoverslam.ks
+// ---------------------------------------------------------------------------------
+// SYNOPSIS
+// 		Script to execute a suicide or slam landing
+//
+//COMPATABILITY
+//		KSP 1.4+
+//		kOS 1.1.5 (https://ksp-kos.github.io/KOS/)
+//
+// PARAMETERS
+//		radarOffset: The distance between the bottom of the landing legs and the actual control point (root part). Default 10m.
+//						This offest will be used to better judge the actual zero point for the end of the burn.
+//						This can be measured by using Kerbal Engineer on the launch pad
+//
+//		e.g. to suicide burn to just 5m abovbe the terrain, execute
+//
+//				run slam(5).
+//
+// COMMENTS
+//		Place your landing carft on the launch pad with Kerbal Engineer installed. Note the altitude above the terain. Probaly a few meters
+//		This will be the required radarOffset. Add a couple of meters "for luck".
+//		The script will perform a hard stop in space (kill all horizontal speed). However, be preparred by stopping most of it in advance of this script.
+//
+//	SUGGESTED MODS
+//		Kerbal Engineer Redux: https://github.com/jrbudda/KerbalEngineer
+//
+// CREDITS
+//		Viruk67 (Author)
+//		Credit for the bulk of this script goes to Bradley Hammond
+// 			https://github.com/mrbradleyjh/KOS-Hoverslam/blob/master/hoverslam.ks
+//		
+// ---------------------------------------------------------------------------------
+
+// 
 
 @LAZYGLOBAL off.
 
-PARAMETER radarOffset.										// The distance between the probe core and the bottom of the gear
-IF radarOffset <= 0 { SET radarOffset TO 10. }				// Check for a suitable, default value
+PARAMETER radarOffset.										// The distance between the probe core (root part) and the bottom of the gear
+IF radarOffset <= 0 { SET radarOffset TO 10. }				// Check for a suitable, default value, can't be less than zero
 
 run lib_rotate.
 
