@@ -1,5 +1,28 @@
-// Credit for this script goes to u/rybec on reddit https://www.reddit.com/user/Rybec
-// https://www.reddit.com/r/Kos/comments/3ivlz9/cooked_steering_flailing_your_craft_wildly_pids/
+// ---------------------------------------------------------------------------------
+// SYNOPSIS
+// 		A library of routines to help manage the rotation of a craft from it's current facing direction to the target facing direction.
+//
+//COMPATABILITY
+//		KSP 1.4+
+//		kOS 1.1.5 (https://ksp-kos.github.io/KOS/)
+//
+// PARAMETERS
+//		dir:	The new facing direction. Steering will be locked to this to permit a smooth, linear rotation.
+//
+// COMMENTS
+//		The embedded SAS functions have a smooth rotation when switch to a new direction.
+//		However the kOS functions swing as fast as possible, leading to over-swing and yo-yo-ing.
+//		This script by u/rybec overcomes this.
+//
+//	SUGGESTED MODS
+//		None.
+//
+// CREDITS
+//		Viruk67 (Author)
+//		Credit for this script goes to u/rybec on reddit https://www.reddit.com/user/Rybec
+// 			https://www.reddit.com/r/Kos/comments/3ivlz9/cooked_steering_flailing_your_craft_wildly_pids/
+//		
+// ---------------------------------------------------------------------------------
 
 declare FUNCTION smoothRotate {
     PARAMETER dir.

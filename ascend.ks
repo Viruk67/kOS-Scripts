@@ -1,5 +1,31 @@
-// Launch ascend script, managing pitch, staging and throttle. v2.0
-// Compatible with KSP 1.0 and kOS 0.18
+// ---------------------------------------------------------------------------------
+// SYNOPSIS
+// 		Launch and ascension script, managing pitch, throttle and staging. Does not circularise the orbit
+//
+//COMPATABILITY
+//		KSP 1.4+
+//		kOS 1.1.5 (https://ksp-kos.github.io/KOS/)
+//
+// PARAMETERS
+//		finalAlt:	The target apoapsis altitude in meters. defailt is 100,000
+//		incl:		The target inclination of the resulting orbit, above (+ve) or below east (-ve) in degrees. Default is 0 (due East)
+//
+//		e.g. Launch to an apoapsis of 200km, 30 degress to the North of due East
+//
+//				run ascend(200000,30).
+//
+// COMMENTS
+//		When in the VAB, try to balance the TWR of each stage to about 1.6. Otherwise, the PID loop might have a hard time managing the throttle at the extremes
+//		Script is entirely automated, just run the script and the craft will launch, throttle and stage until the desired apoapsis and inclination are obtained.
+//		Craft will always end with a pitch of 30 degress to the horizon (see turnpitch). Does not circularise the orbit
+//
+//	SUGGESTED MODS
+//		Kerbal Engineer Redux: https://github.com/jrbudda/KerbalEngineer
+//
+// CREDITS
+//		Viruk67 (Author)
+//		
+// ---------------------------------------------------------------------------------
 
 @LAZYGLOBAL off.
 
@@ -20,9 +46,9 @@ CLEARSCREEN.
 
 LOCAL tTWR					IS 2.0.							// Target TWR
 
-LOCAL turnPitch				IS 30.
-LOCAL turnAlt				IS 35000.
-LOCAL incAlt				IS 5000.
+LOCAL turnPitch				IS 30.							// Target pitch to the horizon (90 is stright up and 0 is parallel to the horizon/ground)
+LOCAL turnAlt				IS 35000.						// End pitching over by the time we reach 35km
+LOCAL incAlt				IS 5000.						// Stay pointing stright up until we reach 5km, then start pitching over
 
 LOCAL Ps					IS 0.
 LOCAL Is					IS 0.
@@ -30,7 +56,7 @@ LOCAL oldAvailableThrust	IS 0.
 LOCAL aPID					IS PIDLOOP().
 LOCAL th					IS 1.
 LOCAL aTWR					IS 0.
-LOCAL towerAlt				IS 5000.
+LOCAL towerAlt				IS 5000.						// Stay at maximum throttle until we have cleared the tower (no longer in game), then kick in the PID loop
 
 SAS ON.														// Switch SAS ON as kOS can now work with stability assist
 LOCK THROTTLE TO 1.											// Initially, lock the throttle to maximum
@@ -80,9 +106,9 @@ UNTIL SHIP:ALTITUDE > turnAlt
 	
 	PRINT "Target altitude        is "	+ finalAlt		+ "m"					AT (0,0).	// Target final altitude passed in
 	PRINT "Target inclination     is "	+ incl			+ " "					AT (0,1).	// Target inclination passed in
-	PRINT "Calculated pitch       is " + ROUND(Ps,2) 	+ " above horizon   " 	AT (0,3). 	// Print calculated pitch to two decimal places
-	PRINT "Calculated inclination is " + ROUND(Is,2) 	+ " from East       " 	AT (0,4). 	// Print calculated inclination to two decimal places
-	PRINT "Calculated throttle    is " + ROUND(th,2) 	+ "   "					AT (0,6).	// Print calculated throttle to two decimal places 
+	PRINT "Calculated pitch       is " 	+ ROUND(Ps,2) 	+ " above horizon   " 	AT (0,3). 	// Print calculated pitch to two decimal places
+	PRINT "Calculated inclination is " 	+ ROUND(Is,2) 	+ " from East       " 	AT (0,4). 	// Print calculated inclination to two decimal places
+	PRINT "Calculated throttle    is " 	+ ROUND(th,2) 	+ "   "					AT (0,6).	// Print calculated throttle to two decimal places 
 	PRINT "Target TWR             is "	+ ROUND(tTWR,2) + "   "					AT (0,7).	// Print target TWR
 	PRINT "Actual TWR             is "	+ ROUND(aTWR,2) + "   "					AT (0,8).	// Print actual TWR
 	

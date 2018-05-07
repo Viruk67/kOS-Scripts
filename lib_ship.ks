@@ -1,5 +1,23 @@
-// Ship-based utility functions
-// Compatible with KSP 1.0 and kOS 0.17
+// ---------------------------------------------------------------------------------
+// SYNOPSIS
+// 		A library of routines for ship/vessel based functions
+//
+//COMPATABILITY
+//		KSP 1.4+
+//		kOS 1.1.5 (https://ksp-kos.github.io/KOS/)
+//
+// PARAMETERS
+//		None.
+//
+// COMMENTS
+//		None.
+//
+//	SUGGESTED MODS
+//		None.
+//
+// CREDITS
+//		Viruk67 (Author)
+//		
 
 @LAZYGLOBAL off.
 

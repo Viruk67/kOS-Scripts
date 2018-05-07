@@ -1,6 +1,33 @@
-// Hoverbot script, controlling the throttle around a balance point to maintain a given radar altitude
-// Known issue: Can yo-yo a lot if initial altitude is significantly different from target altitude
-// Compatible with KSP 1.0 and kOS 0.18
+// ---------------------------------------------------------------------------------
+// SYNOPSIS
+// 		Script to manage a craft in "hover", controlling throttle, even if the craft is pitched over
+//
+//COMPATABILITY
+//		KSP 1.4+
+//		kOS 1.1.5 (https://ksp-kos.github.io/KOS/)
+//
+// PARAMETERS
+//		dAltitude: Desired altitue in meters above the surface. There is no default value.
+//					Should be more than the height off the ground with gear extended.
+//					For most simple landers 10m is sufficient.
+//
+//		e.g. to hover at 10m
+//
+//				run hover(10).
+//
+// COMMENTS
+//		Can yo-yo a lot if initial altitude is significantly different from target altitude.
+//		So, try to start nearly hovering at near the desired altitude.
+//		Obviously you need a TWR of at least 1!
+//		Lower the gear to end the hover in the current state. Assumes the gear was raised to start with.
+//
+//	SUGGESTED MODS
+//		None.
+//
+// CREDITS
+//		Viruk67 (Author)
+//		
+// ---------------------------------------------------------------------------------
 
 @LAZYGLOBAL off.
 RUN lib_physics.

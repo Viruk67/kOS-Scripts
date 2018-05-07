@@ -1,3 +1,36 @@
+// ---------------------------------------------------------------------------------
+// SYNOPSIS
+// 		Conveniemnce script to help meet the condtions of a part testing contract
+//		e.g. Test part X while flying at 100m/s at 22,000m
+//		The test itself must still be run manullay by the Player.
+//
+//COMPATABILITY
+//		KSP 1.4+
+//		kOS 1.1.5 (https://ksp-kos.github.io/KOS/)
+//
+// PARAMETERS
+//		finalAlt:	The altitude at which to run the test. Pick a value above the minimum  but below the maximum specified in the contract
+//		finalSpeed:	The velocity to run the test. Pick a value above the minimum  but below the maximum specified in the contract
+//		finalPitch: The pitch of the craft when the test takes place. WHile not part of the contratc parameters, can be used to tune the launch profile
+//
+//		e.g. to test a part at 100m/s at 22km
+//
+//			run testpart(20000,100).
+//
+// COMMENTS
+//		It can be very much trial and error meeting the revelant conditions, particularly ones which are very extreme.
+//		Choose a value for each parameter near the minimum value, so you can run the test before passing outside of the parameter range.
+//		The Player must manually test the part, either by staging or by executing "Run Test" on the part. 
+//		In the latter case, be preparred by pinning the relevant part menu to the screen.
+//
+//	SUGGESTED MODS
+//		None.
+//
+// CREDITS
+//		Viruk67 (Author)
+//		
+// ---------------------------------------------------------------------------------
+
 CLEARSCREEN.
 
 PARAMETER finalAlt.			// Target altitude. Should be mid-range
