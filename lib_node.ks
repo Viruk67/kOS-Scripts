@@ -28,6 +28,11 @@ declare function warpnode
 {
     PARAMETER sec.
 
+	LOCAL nd TO 0.
+	LOCAL max_acc TO 0.
+	LOCAL burn_duration TO 0.
+	LOCAL warp_time TO 0.
+
     // Set a default number of seconds if none are supplied
     IF (sec <=0)
     {
@@ -61,6 +66,16 @@ declare function warpnode
 // Execute the next node in sequence, even if there are more than one planned
 function exnode 
 {
+	LOCAL nd TO 0.
+	LOCAL max_acc TO 0.
+	LOCAL burn_duration TO 0.
+	LOCAL np TO 0.
+	LOCAL align TO 0.
+	LOCAL dv0 TO 0.
+	LOCAL tset TO 0.
+	LOCAL done TO 0.
+	LOCAL oldShipAvMaxThrust TO 0.
+
 	// Get a copy of the next node in line
 	SET nd TO NEXTNODE.
 
