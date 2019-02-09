@@ -29,32 +29,6 @@
 
 // ------------------------------------------------------------------------------------------------
 
-function warpnode
-{
-	// Get a copy of the next node in line
-	SET nd TO NEXTNODE.
-
-	// Calculate ship's max acceleration
-	IF (SHIP:AVAILABLETHRUST <= 0)
-	{
-		PRINT "No available trust. Check engines are activated.".
-		RETURN.
-	}
-	ELSE
-	{
-		// Acceleration is Force * Mass
-		SET max_acc TO SHIP:AVAILABLETHRUST/SHIP:MASS.
-	}
-
-	SET burn_duration TO nd:deltav:mag/max_acc.
-	SET warp_time TO time:seconds + nd:ETA - (burn_duration/2) - (3*60).
-
-	// Now warp!
-	kuniverse:timewarp:warpto(warp_time).
-}
-
-// ------------------------------------------------------------------------------------------------
-
 // Execute the next node in sequence, even if there are more than one planned
 
 function exnode 
