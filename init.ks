@@ -3,8 +3,8 @@
 // 		Convenience script to copy the local archive to the current craft.
 //
 //COMPATABILITY
-//		KSP 1.4+
-//		kOS 1.1.5 (https://ksp-kos.github.io/KOS/)
+//		KSP 1.6.1+
+//		kOS 1.1.6.1 (https://ksp-kos.github.io/KOS/)
 //
 // PARAMETERS
 //		None.
@@ -32,6 +32,7 @@ copypath(lib_rotate.ks,"1:").
 copypath(node.ks,"1:").
 copypath(circ.ks,"1:").
 copypath(ascend.ks,"1:").
+copypath(warpnode.ks,"1:").
 
 copypath(hover.ks,"1:").
 copypath(slam.ks,"1:").

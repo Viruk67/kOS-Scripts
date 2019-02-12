@@ -3,8 +3,8 @@
 // 		A library of functions to execute node related tasks
 //
 //COMPATABILITY
-//		KSP 1.4+
-//		kOS 1.1.5 (https://ksp-kos.github.io/KOS/)
+//		KSP 1.6.1
+//		kOS 1.1.6.1 (https://ksp-kos.github.io/KOS/)
 //
 // PARAMETERS
 //		None.
@@ -21,18 +21,61 @@
 //		
 // ---------------------------------------------------------------------------------
 
-// A library of functions to execute node related tasks
-// Compatible with KSP 1.0 and kOS 0.17
-// Version: 1.6
+@LAZYGLOBAL off.
 
-//@lazyglobal off.
+// Timewarp to the next node, give or take a number of seconds (default 180)
+declare function warpnode
+{
+    PARAMETER sec.
 
-// ------------------------------------------------------------------------------------------------
+	LOCAL nd TO 0.
+	LOCAL max_acc TO 0.
+	LOCAL burn_duration TO 0.
+	LOCAL warp_time TO 0.
+
+    // Set a default number of seconds if none are supplied
+    IF (sec <=0)
+    {
+        SET sec TO 180.
+    }
+
+	// Get a copy of the next node in line
+	SET nd TO NEXTNODE.
+
+	// Calculate ship's max acceleration
+	IF (SHIP:AVAILABLETHRUST <= 0)
+	{
+		PRINT "No available trust. Check engines are activated.".
+	}
+	ELSE
+	{
+		// Acceleration is Force * Mass
+		SET max_acc TO SHIP:AVAILABLETHRUST/SHIP:MASS.
+
+		// Calculate time to warp to (3 minutes before start of burn)
+		SET burn_duration TO nd:deltav:mag/max_acc.
+		SET warp_time TO time:seconds + nd:ETA - (burn_duration/2) - (sec).
+
+		// Now warp!
+		kuniverse:timewarp:warpto(warp_time).
+	}
+}
+
+// ----------------------------------------------------------------------------------
 
 // Execute the next node in sequence, even if there are more than one planned
-
 function exnode 
 {
+	LOCAL nd TO 0.
+	LOCAL max_acc TO 0.
+	LOCAL burn_duration TO 0.
+	LOCAL np TO 0.
+	LOCAL align TO 0.
+	LOCAL dv0 TO 0.
+	LOCAL tset TO 0.
+	LOCAL done TO 0.
+	LOCAL oldShipAvMaxThrust TO 0.
+
 	// Get a copy of the next node in line
 	SET nd TO NEXTNODE.
 
@@ -159,7 +202,7 @@ function exnode
 	SET SHIP:CONTROL:PILOTMAINTHROTTLE TO 0.
 }
 
-// ------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 
 // Creating a Circularisation Node by being clever
 function circle 
